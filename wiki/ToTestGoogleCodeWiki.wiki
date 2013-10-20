@@ -2,7 +2,7 @@
 
 = Introduction =
 
-To test the Wiki functionality.
+To test the Wiki functionality
 
 
 = Details =
