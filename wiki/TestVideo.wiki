@@ -3,6 +3,8 @@
 = Introduction =
 
 Links to Use Cases Tests.
+Please edit the links below. 
+Thx.
 
 
 = Details =
