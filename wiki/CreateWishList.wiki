@@ -12,15 +12,19 @@ Description of the Use Case Specification for UC-3:CreateWishList.
 *ID: 
    UC-3
 *Summary: 
-   While shopping or searching for products, many Customers would like  
+   The user creates one or more wish lists to save desired products that  
+   intend to acquire in the future.
+* Rationale:
+   While shopping or searching for products, many Customers would like   
    to create one or more wish lists.
    Then, Customers can add products to this wish lists, to buy them when  
    they want and not necessary at that specific moment that they are on- 
    line.
 *Users:
-   Customers
+   Customers.
 * Preconditions:
-   User with an account created and logged in to the system.
+   User with an account created (registered user) and logged in to the  
+   system.
 * Basic Course of Events:
    1. The user access the system at www.amazon.co.uk;
    2. The user sign-in on the system;
@@ -35,4 +39,4 @@ Description of the Use Case Specification for UC-3:CreateWishList.
    to the user their wish list(s) and an option to create another wish  
    list.
 * Postconditions:
-   None.
+   At least one wish list shall be created.
