@@ -1,0 +1,24 @@
+#summary : Links to Use Cases Tests.
+
+= Introduction =
+
+Links to Use Cases Tests.
+
+
+= Details =
+
+Links:
+  * UC-1: SignIn
+    <LinkToUseCaseTestVideo>
+
+  * UC-2: SearchProducts
+    <LinkToUseCaseTestVideo>
+
+  * UC-3: CreateWishList
+    <LinkToUseCaseTestVideo>
+
+  * UC-4: AddProductToWishList
+    <LinkToUseCaseTestVideo>
+
+  * UC-5: RemoveProductFromWishList
+    <LinkToUseCaseTestVideo>
