@@ -17,7 +17,7 @@ Links:
     <LinkToUseCaseTestVideo>
 
   * UC-3: CreateWishList
-    <LinkToUseCaseTestVideo>
+    http://www.youtube.com/watch?v=uRPZR117kUE&feature=youtu.be
 
   * UC-4: AddProductToWishList
     https://www.youtube.com/watch?v=vzStr0YviFo
