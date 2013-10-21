@@ -2,7 +2,7 @@
 
 = Introduction =
 
-Description of the Use Case Specification for UC-5: RemoveProductFromWishList
+Description of the Use Case Specification for UC-5: RemoveProductFromWishlist
 
 
 
