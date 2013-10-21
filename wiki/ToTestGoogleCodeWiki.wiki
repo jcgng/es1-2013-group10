@@ -8,3 +8,4 @@ To test the Wiki functionality.
 = Details =
 
 To test the Wiki functionality.
+[http://code.google.com/ http://code.google.com/images/code_sm.png]
