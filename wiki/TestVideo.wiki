@@ -14,7 +14,11 @@ Links:
     https://www.youtube.com/watch?v=9Ikhh-03WEI
 
   * UC-2: SearchProducts
-    <LinkToUseCaseTestVideo>
+    https://www.youtube.com/watch?v=V9coBqqfIo8
+    https://www.youtube.com/watch?v=eAZKrmoHnyc
+    https://www.youtube.com/watch?v=uebT21l_o6g
+    https://www.youtube.com/watch?v=AgqisGKsIZE
+    https://www.youtube.com/watch?v=GU_ij9aSalI
 
   * UC-3: CreateWishList
     http://www.youtube.com/watch?v=uRPZR117kUE&feature=youtu.be
@@ -23,4 +27,4 @@ Links:
     https://www.youtube.com/watch?v=vzStr0YviFo
 
   * UC-5: RemoveProductFromWishList
-    <LinkToUseCaseTestVideo>
+    https://www.youtube.com/watch?v=PvBFRXOSOws
