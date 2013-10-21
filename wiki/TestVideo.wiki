@@ -11,7 +11,7 @@ Thx.
 
 Links:
   * UC-1: SignIn
-    <LinkToUseCaseTestVideo>
+    https://www.youtube.com/watch?v=9Ikhh-03WEI
 
   * UC-2: SearchProducts
     <LinkToUseCaseTestVideo>
@@ -20,7 +20,7 @@ Links:
     <LinkToUseCaseTestVideo>
 
   * UC-4: AddProductToWishList
-    <LinkToUseCaseTestVideo>
+    https://www.youtube.com/watch?v=vzStr0YviFo
 
   * UC-5: RemoveProductFromWishList
     <LinkToUseCaseTestVideo>
