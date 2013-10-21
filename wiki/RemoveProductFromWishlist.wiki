@@ -1,4 +1,4 @@
-#summary Use Case Specification.
+#summary : Use Case Specification.
 
 = Introduction =
 
