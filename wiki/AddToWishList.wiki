@@ -1,4 +1,5 @@
-#labels UseCaseSpecification.
+#summary : UseCaseSpecification
+
 = Introduction =
 
 Description of the Use Case Specification for UC-4: AddToWishList.
