@@ -20,9 +20,7 @@ public class SecurityFilterMoodBufferTestCase {
 			System.out.println(mood.getMood());
 		}
 		// test get last
-		System.out.println(buffer.getLast(0).getMood());
 		assertEquals("C",buffer.getLast(0).getMood());
-		System.out.println(buffer.getLast(2).getMood());
 		assertEquals("A",buffer.getLast(2).getMood());
 		if(buffer.getLast(4)!=null)
 			fail("This was not supposed!");
@@ -53,6 +51,6 @@ public class SecurityFilterMoodBufferTestCase {
 		assertEquals("I",buffer.getLast(4).getMood());
 		assertEquals("G",buffer.getLast(6).getMood());
 		assertEquals("E",buffer.getLast(8).getMood());
-		assertEquals("D",buffer.getLast(10).getMood());
+		assertEquals("C",buffer.getLast(10).getMood());
 	}	
 }
