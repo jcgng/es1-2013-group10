@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClassDiagram>
+    <Class
+        name="moodish.securityfilter.records.buffer.SecurityFilterMoodBuffer"
+        x="756" y="456">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="moodish.securityfilter.records.models.SecurityFilterMood"
+            endpointName="buffer" kind="Simple"/>
+    </Class>
+    <Class
+        name="moodish.securityfilter.records.models.SecurityFilterClient"
+        x="369" y="423">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="moodish.securityfilter.records.buffer.SecurityFilterMoodBuffer"
+            endpointName="clientLastMoods" kind="Simple"/>
+        <Communication destinationClassName="moodish.securityfilter.records.buffer.SecurityFilterMoodBuffer"/>
+        <Communication destinationClassName="moodish.securityfilter.records.models.SecurityFilterMood"/>
+    </Class>
+    <Class name="moodish.comm.ServerComm" x="1120" y="30">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="moodish.securityfilter.records.SecurityFilterClients"
+        x="357" y="268">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="moodish.securityfilter.records.models.SecurityFilterClient"
+            endpointName="clients" kind="Simple"/>
+        <Communication destinationClassName="moodish.securityfilter.records.models.SecurityFilterClient"/>
+    </Class>
+    <Class name="moodish.securityfilter.MoodishSecurityFilter" x="441" y="124">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="moodish.securityfilter.ServerCommDecorator"/>
+        <Association
+            destinationClassName="moodish.securityfilter.records.SecurityFilterClients"
+            endpointName="clientsReceivedMoods" kind="Simple"/>
+        <Communication destinationClassName="moodish.comm.ServerComm"/>
+        <Communication destinationClassName="moodish.securityfilter.records.SecurityFilterClients"/>
+        <Communication destinationClassName="moodish.securityfilter.ServerCommDecorator"/>
+    </Class>
+    <Class name="moodish.securityfilter.ServerCommDecorator" x="702" y="47">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="moodish.comm.ServerComm"/>
+        <Association destinationClassName="moodish.comm.ServerComm"
+            endpointName="serverComm" kind="Simple"/>
+        <Communication destinationClassName="moodish.comm.ServerComm"/>
+    </Class>
+    <Class
+        name="moodish.securityfilter.records.models.SecurityFilterMood"
+        x="795" y="607">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+</ClassDiagram>

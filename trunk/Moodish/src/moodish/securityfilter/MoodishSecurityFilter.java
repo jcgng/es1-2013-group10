@@ -8,7 +8,8 @@ import moodish.securityfilter.exceptions.SecurityFilterClientBlockException;
 import moodish.securityfilter.records.SecurityFilterClients;
 
 /**
- * Concrete decorator Class that decorates message filter rules
+ * Security Filter for the Moodish Server Communications interface.</br>
+ * Example: ServerComm srvComm = new MoodishSecurityFilter(new ServerCommDummy());
  * 
  * @author Default/Group 10
  * @version 1
@@ -20,16 +21,34 @@ public class MoodishSecurityFilter extends ServerCommDecorator {
 
 	private enum Actions {
 		DO_NOTHING,
+		
+		/**
+		 * Send the <i>FIRST_WARNING</i> warning message
+		 * to the client.
+		 */
 		SEND_FIRST_WARNING,
+		
+		/**
+		 * Send the <i>SECOND_WARNING</i> warning message
+		 * to the client.
+		 */
 		SEND_SECOND_WARNING,
+		
+		/**
+		 * Disconnect the client from the server.
+		 */
 		DISCONNECT_CLIENT,
-		BLOKED_CLIENT
+		
+		/**
+		 * Block the client from server access.
+		 */
+		BLOCK_CLIENT
 	};
 	
 	private enum Messages {
 	    FIRST_WARNING("WARNING: You repeatedly changed mood 8 times within a span of "+firstTimeSpan+" seconds!"),
 	    SECOND_WARNING("WARNING: You repeatedly changed to same mood twice within a span of "+secondTimeSpan+" seconds!"),
-	    BLOKED_CLIENT_MSG("WARNING: You're nickname is blocked for at least "+blockedClientTimeSpan+ " seconds, please try again later!");
+	    BLOCKED_CLIENT_MSG("WARNING: You're nickname is blocked for at least "+blockedClientTimeSpan+ " seconds, please try again later!");
 	    
 	    private final String msg;       
 	    private Messages(String str) { msg = str; }
@@ -38,10 +57,21 @@ public class MoodishSecurityFilter extends ServerCommDecorator {
 	
 	private SecurityFilterClients clientsReceivedMoods = new SecurityFilterClients();
 	
+	/**
+	 * <i>MoodishSecurityFilter</i> Class contructor.
+	 * 
+	 * @param <b>serverComm</b> The ServerComm object.
+	 */
 	public MoodishSecurityFilter(ServerComm serverComm) {
 		super(serverComm);
 	}
 	
+	/**
+	 * Moodish <i>ServerSideMessage</i> security filter rules.
+	 * 
+	 * @param <b>serverSideMessage</b> The received server side message.
+	 * @return The action to be performed by the server.
+	 */
 	private Actions filterRules(ServerSideMessage serverSideMessage) {
 		String nickname = serverSideMessage.getClientNickname();
 		String payload = serverSideMessage.getPayload();
@@ -69,7 +99,7 @@ public class MoodishSecurityFilter extends ServerCommDecorator {
 				Long timeLapsed = clientsReceivedMoods.blockedClientTimeLapsed(nickname);
 				if(timeLapsed!=null) {
 					if(timeLapsed.longValue()<blockedClientTimeSpan) {
-						return Actions.BLOKED_CLIENT;
+						return Actions.BLOCK_CLIENT;
 					} else {
 						clientsReceivedMoods.unblockClient(nickname);
 					}
@@ -93,8 +123,8 @@ public class MoodishSecurityFilter extends ServerCommDecorator {
 			case SEND_SECOND_WARNING:
 				sendError(serverSideMessage.getClientNickname(),Messages.SECOND_WARNING.toString());
 				break;
-			case BLOKED_CLIENT:
-				sendError(serverSideMessage.getClientNickname(),Messages.BLOKED_CLIENT_MSG.toString());
+			case BLOCK_CLIENT:
+				sendError(serverSideMessage.getClientNickname(),Messages.BLOCKED_CLIENT_MSG.toString());
 			case DISCONNECT_CLIENT:
 				disconnectClient(serverSideMessage.getClientNickname());
 				break;

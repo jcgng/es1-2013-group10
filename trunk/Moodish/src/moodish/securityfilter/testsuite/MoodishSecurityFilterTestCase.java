@@ -13,11 +13,12 @@ public class MoodishSecurityFilterTestCase {
 	private int timeBetweenMsg = 30000;
 	private ServerComm srvComm = new MoodishSecurityFilter(new ServerCommDummy());
 
-	// TODO: Capture Stream
+	// TODO: Capture Standard Output Stream
 	
 	@Test
 	public void testGetNextMessage() {	
 		while(srvComm.hasNextMessage()) {
+			@SuppressWarnings("unused")
 			ServerSideMessage srvMsg = srvComm.getNextMessage();
 			try {
 				Thread.sleep(timeBetweenMsg);
