@@ -13,26 +13,26 @@ public class SecurityFilterClientTestCase {
 	public void testSecurityFilterClient() {
 		SecurityFilterClient securityFilterClient = new SecurityFilterClient("NickFury","OneEyedBlind");
 		securityFilterClient.addClientFilterMood("OneEyedBlind");
-		assertTrue(securityFilterClient.checkClientLastMoods("OneEyedBlind", 60, 3));
-		securityFilterClient.addClientFilterMood("OneEyedBlind");
 		assertFalse(securityFilterClient.checkClientLastMoods("OneEyedBlind", 60, 3));
+		securityFilterClient.addClientFilterMood("OneEyedBlind");
+		assertTrue(securityFilterClient.checkClientLastMoods("OneEyedBlind", 60, 3));
 
 		
 		securityFilterClient = new SecurityFilterClient("DoctorManhattan","FeelingBlue");
 		securityFilterClient.addClientFilterMood("Glowing");
-		assertTrue(securityFilterClient.checkClientLastMoods("Glowing", 60, 3));
+		assertFalse(securityFilterClient.checkClientLastMoods("Glowing", 60, 3));
 		securityFilterClient.addClientFilterMood("FeelingBlue");
-		assertTrue(securityFilterClient.checkClientLastMoods("FeelingBlue", 60, 3));
+		assertFalse(securityFilterClient.checkClientLastMoods("FeelingBlue", 60, 3));
 
 		securityFilterClient.addClientFilterMood("FeelingBlue");
 		securityFilterClient.addClientFilterMood("Glowing");
 		securityFilterClient.addClientFilterMood("FeelingBlue");
-		assertTrue(securityFilterClient.checkClientLastMoods(30, 10));
-		securityFilterClient.addClientFilterMood("Glowing");
-		securityFilterClient.addClientFilterMood("FeelingBlue");
-		securityFilterClient.addClientFilterMood("Glowing");
-		assertTrue(securityFilterClient.checkClientLastMoods(30, 10));
-		securityFilterClient.addClientFilterMood("FeelingBlue");
 		assertFalse(securityFilterClient.checkClientLastMoods(30, 10));
+		securityFilterClient.addClientFilterMood("Glowing");
+		securityFilterClient.addClientFilterMood("FeelingBlue");
+		securityFilterClient.addClientFilterMood("Glowing");
+		assertFalse(securityFilterClient.checkClientLastMoods(30, 10));
+		securityFilterClient.addClientFilterMood("FeelingBlue");
+		assertTrue(securityFilterClient.checkClientLastMoods(30, 10));
 	}
 }
