@@ -1,0 +1,25 @@
+#summary Status of the component and test coverage.
+
+= Description =
+
+Classes:
+MoodishSecurityFilter
+SecurityFilterClients
+SecurityFilterClient
+SecurityFilterMoodBuffer
+SecurityFilterMood
+
+
+= Details =
+
+* MoodishSecurityFilter
+Is the Security Filter class for the Moodish Server Communications interface.
+
+* SecurityFilterClients
+This is a class that stores the clients that have sent a mood message to the server.
+
+* SecurityFilterClient
+This a class with the relevant client information for the filter.
+
+* SecurityFilterMoodBuffer
+This class implements an _Iterable_ circular buffer for _SecurityFilterMood_.
