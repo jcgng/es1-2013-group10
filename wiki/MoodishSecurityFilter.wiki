@@ -12,7 +12,7 @@ SecurityFilterMood
 
 = Details of what has been implemented =
 
-*MoodishSecurityFilter*
+* MoodishSecurityFilter
 Is the Security Filter class for the Moodish Server Communications interface.
 Test coverage result: 87,5%
 
@@ -31,3 +31,9 @@ Test coverage result: 92,2%
 * SecurityFilterMood
 This is a class with the relevant security received Mood for the security filter.
 Test coverage result: 94,1%
+
+SVN Revision/Tag: 44
+
+Public Link with the source code: https://drive.google.com/file/d/0Bxm5ytDYtIYBSnhhVkU3Vmo3eEk/edit?usp=sharing
+
+
