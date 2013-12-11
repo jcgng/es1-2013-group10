@@ -53,6 +53,21 @@
             endpointName="clients" kind="Simple"/>
         <Communication destinationClassName="moodish.securityfilter.records.models.SecurityFilterClient"/>
     </Class>
+    <Class name="moodish.securityfilter.ServerCommDecorator" x="702" y="47">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="moodish.comm.ServerComm"/>
+        <Association destinationClassName="moodish.comm.ServerComm"
+            endpointName="serverComm" kind="Simple">
+            <Point x="1043" y="185"/>
+        </Association>
+        <Communication destinationClassName="moodish.comm.ServerComm"/>
+    </Class>
     <Class name="moodish.securityfilter.MoodishSecurityFilter" x="441" y="124">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
@@ -68,19 +83,6 @@
         <Communication destinationClassName="moodish.comm.ServerComm"/>
         <Communication destinationClassName="moodish.securityfilter.records.SecurityFilterClients"/>
         <Communication destinationClassName="moodish.securityfilter.ServerCommDecorator"/>
-    </Class>
-    <Class name="moodish.securityfilter.ServerCommDecorator" x="702" y="47">
-        <AttributesDisplayFilter public-accepted="true"
-            private-accepted="true" protected-accepted="true"
-            default-accepted="true" static-accepted="false"/>
-        <MethodDisplayFilter public-accepted="true"
-            private-accepted="false" protected-accepted="false"
-            default-accepted="false" static-accepted="false"
-            accessors-accepted="false" constructors-accepted="false"/>
-        <Extension destinationClassName="moodish.comm.ServerComm"/>
-        <Association destinationClassName="moodish.comm.ServerComm"
-            endpointName="serverComm" kind="Simple"/>
-        <Communication destinationClassName="moodish.comm.ServerComm"/>
     </Class>
     <Class
         name="moodish.securityfilter.records.models.SecurityFilterMood"
