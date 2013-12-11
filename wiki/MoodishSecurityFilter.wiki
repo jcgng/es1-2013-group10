@@ -10,16 +10,24 @@ SecurityFilterMoodBuffer
 SecurityFilterMood
 
 
-= Details =
+= Details of what has been implemented =
 
 * MoodishSecurityFilter
 Is the Security Filter class for the Moodish Server Communications interface.
+Test coverage result: 87,5%
 
 * SecurityFilterClients
 This is a class that stores the clients that have sent a mood message to the server.
+Test coverage result: 70,4%
 
 * SecurityFilterClient
-This a class with the relevant client information for the filter.
+This is a class with the relevant client information for the filter.
+Test coverage result: 82,4%
 
 * SecurityFilterMoodBuffer
-This class implements an _Iterable_ circular buffer for _SecurityFilterMood_.
+This is a class that implements an _Iterable_ circular buffer for _SecurityFilterMood_.
+Test coverage result: 92,2%
+
+* SecurityFilterMood
+This is a class with the relevant security received Mood for the security filter.
+Test coverage result: 94,1%
