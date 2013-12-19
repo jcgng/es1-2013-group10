@@ -53,6 +53,7 @@ public class MoodishSecurityFilterTestCase {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		srvComm = new MoodishSecurityFilter(new ServerCommDummy());
 		while(srvComm.hasNextMessage()) {
 			@SuppressWarnings("unused")
 			ServerSideMessage srvMsg = srvComm.getNextMessage();
