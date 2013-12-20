@@ -30,7 +30,7 @@ public class SecurityFilterClients {
 	 * @param <b>nickname</b> The client nickname.
 	 * @param <b>mood</b> The mood that will be added to the client.
 	 */
-	public void addReceivedMood(String nickname,String mood) {
+	public synchronized void addReceivedMood(String nickname,String mood) {
 		if(clients.containsKey(nickname))
 			getClient(nickname).addClientFilterMood(mood);
 		else 
@@ -44,7 +44,7 @@ public class SecurityFilterClients {
 	 * @param <b>numMoods</b> Number of moods to be checked.
 	 * @return <b>true</b> if the last received <i>numMoods</i> are inside the time interval, otherwise <b>false</b>.
 	 */
-	public boolean checkClientLastMoods(String nickname, int timeLapse, int numMoods) {
+	public synchronized boolean checkClientLastMoods(String nickname, int timeLapse, int numMoods) {
 		return getClient(nickname).checkClientLastMoods(timeLapse,numMoods);
 	}
 	
@@ -55,7 +55,7 @@ public class SecurityFilterClients {
 	 * @param <b>numMoods</b> Number of moods to be checked.
 	 * @return <b>true</b> if the last received <i>numMoods</i> are inside the time interval, otherwise <b>false</b>.
 	 */
-	public boolean checkClientLastMoods(String nickname, String mood, int timeLapse, int numMoods) {
+	public synchronized boolean checkClientLastMoods(String nickname, String mood, int timeLapse, int numMoods) {
 		return getClient(nickname).checkClientLastMoods(mood,timeLapse,numMoods);
 	}
 	
@@ -65,7 +65,7 @@ public class SecurityFilterClients {
 	 * @param <b>nickname</b> The client nickname.
 	 * @throws <b>SecurityFilterClientBlockException</b> if client is not stored.
 	 */
-	public void blockClient(String nickname) throws SecurityFilterClientBlockException {
+	public synchronized void blockClient(String nickname) throws SecurityFilterClientBlockException {
 		SecurityFilterClient client = getClient(nickname);
 		if(client!=null) 
 			client.blockClient();
@@ -79,7 +79,7 @@ public class SecurityFilterClients {
 	 * @param <b>nickname</b> The client nickname.
 	 * @throws <b>SecurityFilterClientBlockException</b> if client is not stored.
 	 */
-	public void unblockClient(String nickname) throws SecurityFilterClientBlockException {
+	public synchronized void unblockClient(String nickname) throws SecurityFilterClientBlockException {
 		SecurityFilterClient client = getClient(nickname);
 		if(client!=null)
 			client.unblockClient();
@@ -93,7 +93,7 @@ public class SecurityFilterClients {
 	 * @param <b>nickname</b> The client nickname.
 	 * @return <b>time lapsed</b> if client is blocked, otherwise <b>null</b> 
 	 */
-	public Long blockedClientTimeLapsed(String nickname) {
+	public synchronized Long blockedClientTimeLapsed(String nickname) {
 		SecurityFilterClient client = getClient(nickname);
 		if(client==null) return null;
 		else return getClient(nickname).blockTimeLapsed();
