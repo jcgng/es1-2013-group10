@@ -321,6 +321,7 @@ public class MyServerComm implements ServerComm {
 				addMessage(mesCli);
 				nick = mesCli.getClientNickname();
 				userList.add(new ClientInformation(nick, out));	
+				listenClient = true;
 			} catch (IOException ioEx) {
 				ioEx.printStackTrace();
 			} catch (ClassNotFoundException cnfEx) {

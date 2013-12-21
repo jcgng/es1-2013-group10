@@ -61,7 +61,6 @@ public class MyClientComm implements ClientComm {
 	/**
 	 * @author joao
 	 * Metodo que manda uma mensagem do tipo "Client_Disconnected" e fecha a socket
-	 * 
 	 */
 	@Override
 	public void disconnect() {	
@@ -163,6 +162,7 @@ public class MyClientComm implements ClientComm {
 		private Socket socket;
 		public DealWithServer(Socket socket){
 			this.socket = socket;
+			listenServer = true;
 		}
 		
 		/**
