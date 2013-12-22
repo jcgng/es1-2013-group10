@@ -17,4 +17,6 @@ public interface StartScreenCallback
     public void sendMessage(String moodishMessage);
 
     public void sendFriendshipRequest(String userNickname);
+    
+    public void sendUnfriendshipRequest(String userNickname);
 }
