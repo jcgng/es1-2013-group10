@@ -57,7 +57,6 @@ public class MyMoodishServer implements MoodishServer,Runnable {
 							
 							for (String b: listtemp) {
 								serverComm.sendClientConnected(a.getUser(), b.toString());
-													
 							}
 						}
 					}

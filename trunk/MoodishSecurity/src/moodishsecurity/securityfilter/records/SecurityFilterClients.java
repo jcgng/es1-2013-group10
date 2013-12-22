@@ -11,7 +11,7 @@ import moodishsecurity.securityfilter.records.models.SecurityFilterClient;
  * @author Default/Group 10
  * @version 1
  */
-public class SecurityFilterClients {
+public class SecurityFilterClients /* implements Runnable */ {
 	private HashMap<String,SecurityFilterClient> clients = new HashMap<String,SecurityFilterClient>();
 	
 	/**
@@ -98,4 +98,15 @@ public class SecurityFilterClients {
 		if(client==null) return null;
 		else return getClient(nickname).blockTimeLapsed();
 	}
+
+	/**
+	 * Check if user doesn't send a mood within 
+	 */
+	/*
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		
+	}
+	*/
 }

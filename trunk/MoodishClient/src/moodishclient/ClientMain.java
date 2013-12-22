@@ -14,12 +14,13 @@ public class ClientMain {
 		client.start(clientComm);
 		
 		// Group 10: test server client comm
+//		int count = 0;
 //		try {
 //			clientComm.connect("127.0.0.1", "teste");
 //			while(clientComm.isConnected()) {
-//				clientComm.sendMoodishMessage("Cheated");
+//				clientComm.sendMoodishMessage("Cheated" + count++);
 //				try {
-//					Thread.sleep(5000);
+//					Thread.sleep(1000);
 //				} catch (InterruptedException e) {
 //					e.printStackTrace();
 //				}

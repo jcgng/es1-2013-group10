@@ -2,6 +2,7 @@ package moodishclient.client.window;
 
 import moodishclient.client.callbacks.StartScreenCallback;
 import moodishclient.client.dataModels.UserData;
+import moodishclient.client.states.Mood;
 import moodishclient.client.states.UserSessionState;
 import moodishclient.client.views.*;
 import moodishclient.client.views.viewComponents.ConversationView;
@@ -55,8 +56,8 @@ public class StartScreen extends JFrame implements StartScreenCallback {
     private JTabbedPane tabs;
 
     private ClientComm clientComm;
-
-    private ExecutorService messageListener;
+    
+    private Thread messageListener;
 
     public StartScreen(ClientComm clientComm) {
         this.clientComm = clientComm;
@@ -119,46 +120,68 @@ public class StartScreen extends JFrame implements StartScreenCallback {
         container.add(loadLogoutMenu(), BorderLayout.NORTH);
         container.revalidate();
         container.repaint();
-
-        messageListener = Executors.newSingleThreadExecutor();
-        messageListener.execute(new Runnable() {
-            @Override
-            public void run() {
-                while(clientComm.isConnected()) {
-                    ClientSideMessage message = clientComm.getNextMessage();
-                    ClientSideMessage.Type messageType = message.getType();
-
-                    if (messageType == ClientSideMessage.Type.CONNECTED) {
-                        findPeopleView.addOnlinePerson(message.getPayload());
-                    } else if (messageType == ClientSideMessage.Type.DISCONNECTED) {
-                        findPeopleView.removeOnlinePerson(message.getPayload());
-                    } else if (messageType == ClientSideMessage.Type.MOODISH_MESSAGE) {
-                        if (userData.isConversationOpened(message.getSendersNickname())) {
-                            ConversationView conversation = userData.getOpenConversation(message.getSendersNickname());
-                            conversation.receiveMessage(message.getPayload());
-                            chatView.notifyMessageFromFriend(conversation);
-                        } else {
-                            // Opens a new Conversation
-                            ConversationView newConversation = new ConversationView(userData, message.getSendersNickname());
-                            chatView.addNewConversation(newConversation);
-                        }
-                        applicationContent.changeScreen(CHAT_KEY);
-                    } else if (messageType == ClientSideMessage.Type.FRIENDSHIP) {
-                        int choosedAction = JOptionPane.showConfirmDialog(StartScreen.this, "You receive a friendship request from " + message.getSendersNickname() + ". Add friend?");
-                        if (choosedAction == 0) {
-                            applicationContent.changeScreen(FRIENDS_KEY);
-                            friendsView.addFriend(new FriendInformation(message.getSendersNickname()));
-                        }
-                    } else if (messageType == ClientSideMessage.Type.UNFRIENDSHIP) {
-                        friendsView.removeFriend(userData.getConnectedFriend(message.getPayload()));
-                        userData.removeConnectedFriend(message.getPayload());
-                    } else if (messageType == ClientSideMessage.Type.ERROR) {
-                        showErrorMessage("An error occurred", message.getPayload());
-                        if(message.getPayload().equals("DISCONNECT")) exitToLogin();
-                    }
-                }
+        
+        
+       messageListener = new Thread(new Runnable() {
+		
+		@Override
+		public void run() {
+			System.out.println("Client waiting for messages: ");
+            while(clientComm.isConnected()) {
+            	if(clientComm.hasNextMessage()) {
+	                ClientSideMessage message = clientComm.getNextMessage();
+	                ClientSideMessage.Type messageType = message.getType();
+	                
+	                System.out.println("[Client] message received: " + messageType + " payload: " + message.getPayload());
+	
+	                if (messageType == ClientSideMessage.Type.CONNECTED) {
+	                    findPeopleView.addOnlinePerson(message.getPayload());
+	                } else if (messageType == ClientSideMessage.Type.DISCONNECTED) {
+	                    findPeopleView.removeOnlinePerson(message.getPayload());
+	                } else if (messageType == ClientSideMessage.Type.MOODISH_MESSAGE) {
+	                    if (userData.isConversationOpened(message.getSendersNickname())) {
+	                        ConversationView conversation = userData.getOpenConversation(message.getSendersNickname());
+	                        conversation.receiveMessage(message.getPayload());
+	                        chatView.notifyMessageFromFriend(conversation);
+	                    } else {
+	                        // Opens a new Conversation
+	                        ConversationView newConversation = new ConversationView(userData, message.getSendersNickname());
+	                        newConversation.receiveMessage(message.getPayload());
+	                        chatView.addNewConversation(newConversation);
+	                    }
+	                    userData.getConnectedFriend(message.getSendersNickname()).setMood(message.getPayload());
+	                    applicationContent.changeScreen(CHAT_KEY);
+	                } else if (messageType == ClientSideMessage.Type.FRIENDSHIP) {
+	                	applicationContent.changeScreen(FRIENDS_KEY);
+	                	FriendInformation newFriend = new FriendInformation(message.getSendersNickname(), StartScreen.this);
+	                	userData.addConnectedFriend(newFriend);
+	                    friendsView.addFriend(newFriend);
+	                    JOptionPane.showMessageDialog(StartScreen.this , "You receive a friendship request from " + message.getSendersNickname());
+	                } else if (messageType == ClientSideMessage.Type.UNFRIENDSHIP) {
+	                	friendsView.removeFriend(userData.getConnectedFriend(message.getPayload()));
+	                    userData.removeConnectedFriend(message.getPayload());
+	                    if(userData.isConversationOpened(message.getPayload())) {
+	                    	chatView.removeConversation(userData.getOpenConversation(message.getPayload()));
+	                    }
+	                	JOptionPane.showMessageDialog(StartScreen.this , "You receive a unfriendship request from " + message.getSendersNickname());
+	                } else if (messageType == ClientSideMessage.Type.ERROR) {
+	                    showErrorMessage("An error occurred", message.getPayload());
+	                    if(message.getPayload().equals("DISCONNECT")) exitToLogin();
+	                }
+            	}
+            	// Group 10
+    			try {
+    				Thread.sleep(500);
+    			} catch (InterruptedException e) {
+    				e.printStackTrace();
+    			}
             }
-        });
+            System.out.println("[Client] not waiting for messages anymore!");
+		}
+	});
+       
+       messageListener.start();
+                   
     }
 
     private void showLoginForm() {
@@ -188,8 +211,7 @@ public class StartScreen extends JFrame implements StartScreenCallback {
     }
 
     private void exitToLogin() {
-    	messageListener.shutdownNow();
-        userData.clean();
+    	userData.clean();
         showLoginForm();
     }
     
@@ -197,6 +219,11 @@ public class StartScreen extends JFrame implements StartScreenCallback {
     public void logoutUser() {
     	// Group 10: send disconnect to server
     	clientComm.disconnect();
+    	try {
+			messageListener.join();
+		} catch (InterruptedException e) {
+			showErrorMessage("Internal error", "An error has occured, please contact administrator");
+		}
     	exitToLogin();
     }
 
@@ -217,6 +244,7 @@ public class StartScreen extends JFrame implements StartScreenCallback {
 	        userData.setLastMood(message);
 	        clientInfoView.setMood(message);
 	        clientComm.sendMoodishMessage(message);
+    		System.out.println("[Client] Moodish message sended: " + message);
     	}
     }
 
@@ -224,9 +252,22 @@ public class StartScreen extends JFrame implements StartScreenCallback {
     public void sendFriendshipRequest(String userNickname) {
     	if(!clientComm.isConnected()) 
     		exitToLogin();
-    	else 
+    	else {
     		clientComm.friendship(userNickname);
+    		System.out.println("[Client] Friendship request sended to " + userNickname);
+    	}
         
     }
+
+	@Override
+	public void sendUnfriendshipRequest(String userNickname) {
+		clientComm.unfriendship(userNickname);
+		FriendInformation friend = userData.getConnectedFriend(userNickname);
+		userData.removeConnectedFriend(userNickname);
+		friendsView.removeFriend(friend);
+		
+		System.out.println("[Client] Unfriendship request sended to " + userNickname);
+
+	}
 }
 

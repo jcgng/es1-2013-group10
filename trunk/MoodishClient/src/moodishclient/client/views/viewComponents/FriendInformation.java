@@ -1,25 +1,33 @@
 package moodishclient.client.views.viewComponents;
 
+import moodishclient.client.callbacks.StartScreenCallback;
 import moodishclient.client.states.Mood;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Comparator;
 
 
-public class FriendInformation extends JPanel {
+public class FriendInformation extends JPanel implements ActionListener {
 
-    private static JLabel MOOD_TITLE = null;
+	
     private static final int WIDTH = 100;
     private static final int HEIGHT = 100;
 
-    Mood mood = null;
+    String mood = null;
     private String friendNickname;
 
-    private JLabel moodLabel;
+    private JLabel MOOD_TITLE_LABEL = null;
 
-    public FriendInformation(String friendNickname) {
+    private JLabel moodLabel;
+    
+    private StartScreenCallback callback;
+
+    public FriendInformation(String friendNickname, StartScreenCallback callback) {
         this.friendNickname = friendNickname;
+        this.callback = callback;
 
         setLayout(new GridBagLayout());
         setBackground(Color.WHITE);
@@ -30,12 +38,19 @@ public class FriendInformation extends JPanel {
         JLabel nickLabel = new JLabel("<html><b>" + friendNickname + "</b></html>");
         nickLabel.setPreferredSize(new Dimension(WIDTH, ((int)(HEIGHT*0.45))));
 
-        MOOD_TITLE = new JLabel("is feeling");
-        MOOD_TITLE.setPreferredSize(new Dimension(WIDTH, ((int)(HEIGHT*0.25))));
+        MOOD_TITLE_LABEL = new JLabel();
+        MOOD_TITLE_LABEL.setPreferredSize(new Dimension(WIDTH, ((int)(HEIGHT*0.25))));
 
-        moodLabel = new JLabel();
+        moodLabel = new JLabel("");
         moodLabel.setPreferredSize(new Dimension(WIDTH, ((int)(WIDTH*0.35))));
         moodLabel.setForeground(Color.BLUE);
+        
+        JButton unfriendshipButton = new JButton();
+        unfriendshipButton.setText("Unfriendship");
+        unfriendshipButton.setPreferredSize(new Dimension((int)(WIDTH*0.50), 10));
+        unfriendshipButton.setAlignmentX(CENTER_ALIGNMENT);
+        
+        unfriendshipButton.addActionListener(this);
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.VERTICAL;
@@ -44,10 +59,14 @@ public class FriendInformation extends JPanel {
         add(nickLabel, gbc);
         gbc.gridy++;
         gbc.gridy++;
-        add(MOOD_TITLE, gbc);
+        add(MOOD_TITLE_LABEL, gbc);
         gbc.gridy++;
         add(moodLabel, gbc);
-
+        gbc.gridy++;
+        gbc.gridy++;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        add(unfriendshipButton, gbc);
+        
 
     }
 
@@ -55,14 +74,18 @@ public class FriendInformation extends JPanel {
         return friendNickname;
     }
 
-    public Mood getMood() {
+    public String getMood() {
         return mood;
     }
 
-    public void setMood(Mood mood) {
+    public void setMood(String mood) {
+    	if(this.mood == null) {
+    		MOOD_TITLE_LABEL.setText("is feeling");
+    	}
         this.mood = mood;
-        moodLabel.setText(Mood.lookupValue(mood));
-
+        moodLabel.setText(mood);
+        revalidate();
+        repaint();
     }
 
 
@@ -70,7 +93,7 @@ public class FriendInformation extends JPanel {
         @Override
         public int compare(Object o1, Object o2) {
             if(((FriendInformation)o1).getMood() != null && ((FriendInformation)o2).getMood() != null) {
-                return Mood.lookupValue(((FriendInformation)o1).getMood()).toUpperCase().compareTo(Mood.lookupValue(((FriendInformation)o2).getMood()).toUpperCase());
+                return ((FriendInformation)o1).getMood().toUpperCase().compareTo(((FriendInformation)o2).getMood().toUpperCase());
             }
             return 0;
         }
@@ -82,4 +105,9 @@ public class FriendInformation extends JPanel {
             return ((FriendInformation)o1).getFriendNickname().toUpperCase().compareTo(((FriendInformation)o2).getFriendNickname().toUpperCase());
         }
     };
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		callback.sendUnfriendshipRequest(friendNickname);
+	}
 }

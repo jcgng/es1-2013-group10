@@ -53,6 +53,7 @@ public class FriendsView extends JPanel implements ActionListener {
         connectedFriends.add(friend);
         friendsPanel.add(friend);
         friendsPanel.revalidate();
+        friendsPanel.repaint();
 
     }
 
@@ -60,14 +61,17 @@ public class FriendsView extends JPanel implements ActionListener {
         connectedFriends.remove(friend);
         friendsPanel.remove(friend);
         friendsPanel.revalidate();
+        friendsPanel.repaint();
     }
 
 
     private void refreshFriendsView(Object[] array) {
         friendsPanel.removeAll();
-        for(Object fried : array) {
-            addFriend((FriendInformation)fried);
+        for(Object friend : array) {
+            addFriend((FriendInformation)friend);
         }
+        friendsPanel.revalidate();
+        friendsPanel.repaint();
 
     }
 
