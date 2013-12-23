@@ -6,6 +6,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.Vector;
 
 import moodishcomm.comm.ClientComm;
@@ -177,12 +178,14 @@ public class MyClientComm implements ClientComm {
 					MessageFromServer msgServer = (MessageFromServer) in.readObject();
 					System.out.println(msgServer);
 					filaDeMensagens.add(msgServer); // possivelmente temos que fazer como no server criar um metodo sincronyzed
-				} catch(ClassNotFoundException e) {
-					e.printStackTrace();
 				} catch(EOFException e) {
-//					e.printStackTrace();
 					// Group 10: peer has ended connection
 					listenServer = false;
+				} catch(SocketException e) {
+					// Group 10: peer has ended connection
+					listenServer = false;
+				} catch(ClassNotFoundException e) {
+					e.printStackTrace();
 				} catch(IOException e) {
 					e.printStackTrace();
 				}

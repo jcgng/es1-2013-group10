@@ -7,6 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.Vector;
 
 import moodishcomm.comm.ClientSideMessage;
@@ -30,8 +31,6 @@ public class MyServerComm implements ServerComm {
 	private Vector<ClientInformation> userList = new Vector<ClientInformation>();
 	private static final int PORT = 8088;
 	private ServerSocket s;
-	// Group 10: client disconnect flag
-	private boolean listenClient = true;
 	
 	/**
 	 * @author joao
@@ -237,10 +236,10 @@ public class MyServerComm implements ServerComm {
 	public void disconnectClient(String nickname) {
 		for (int i = 0; i < userList.size(); i++) {
 			if(userList.get(i).getNick() == nickname) {
+				// Group 10: stop thread
+				userList.get(i).getClientThread().stopListenClient();
 				// remove client from list
 				userList.remove(i);
-				// Group 10: stop thread
-				listenClient = false;
 			}
 		}
 		// Group 10: Send to server the disconnect message
@@ -305,6 +304,8 @@ public class MyServerComm implements ServerComm {
 	public class DealWithClient extends Thread {
 		private Socket socket;
 		private String nick;
+		// Group 10: client disconnect flag
+		private boolean listenClient = true;
 		
 		/**
 		 * Constrotor da Thread que escuta os cliente
@@ -320,7 +321,7 @@ public class MyServerComm implements ServerComm {
 				// Group 10: add the connect message
 				addMessage(mesCli);
 				nick = mesCli.getClientNickname();
-				userList.add(new ClientInformation(nick, out));	
+				userList.add(new ClientInformation(nick, out, this));	
 				listenClient = true;
 			} catch (IOException ioEx) {
 				ioEx.printStackTrace();
@@ -345,9 +346,11 @@ public class MyServerComm implements ServerComm {
 						listenClient = false;
 				}
 			} catch(EOFException e) {
-//				e.printStackTrace();
 				// Group 10: peer has ended connection
-				listenClient = false; 
+				listenClient = false;
+			} catch(SocketException e) {
+				// Group 10: peer has ended connection
+				listenClient = false;
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (ClassNotFoundException e) {
@@ -359,6 +362,10 @@ public class MyServerComm implements ServerComm {
 					e.printStackTrace();
 				}
 			}
+		}
+		
+		public void stopListenClient() {
+			this.listenClient = false;
 		}
 	}
 }
