@@ -2,6 +2,8 @@ package moodishcomm.comm.client;
 
 import java.io.ObjectOutputStream;
 
+import moodishcomm.comm.server.MyServerComm.DealWithClient;
+
 /**
  * 
  * @author marta
@@ -12,14 +14,17 @@ import java.io.ObjectOutputStream;
 public class ClientInformation {
 	private String nick;
 	private ObjectOutputStream out;
-
+	// Group 10
+	private DealWithClient clientThread = null;
+	
 	/**
 	 * @param nick nome do cliente
 	 * @param out canal do cliente
 	 */	
-	public ClientInformation(String nick, ObjectOutputStream out){
+	public ClientInformation(String nick, ObjectOutputStream out, DealWithClient clientThread){
 		this.nick = nick;
 		this.out = out;
+		this.clientThread = clientThread;
 	}
 	
 
@@ -37,5 +42,9 @@ public class ClientInformation {
 
 	public void setOut(ObjectOutputStream out) {
 		this.out = out;
+	}
+	// Group 10	
+	public DealWithClient getClientThread() {
+		return this.clientThread;
 	}
 }
